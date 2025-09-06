@@ -22,7 +22,7 @@ public abstract class BaseEntity<ID> {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(id); //added here for unique identification of entity
     }
 
 }
