@@ -5,6 +5,8 @@ import com.food.order.domain.valueobject.Money;
 import com.food.order.domain.valueobject.OrderId;
 import com.food.order.service.domain.valueobject.OrderItemId;
 
+import java.util.UUID;
+
 public class OrderItem extends BaseEntity<OrderItemId> {
     private OrderId orderId;
     private final Product product;
@@ -20,14 +22,8 @@ public class OrderItem extends BaseEntity<OrderItemId> {
         super.setId(builder.orderItemId);
     }
 
-    public static Builder builder(OrderItem copy) { //dont use lombok in order to get rid of dependencies from domain core!!!
-        Builder builder = new Builder();
-        builder.quantity = copy.getQuantity();
-        builder.price = copy.getPrice();
-        builder.subTotal = copy.getSubTotal();
-        builder.product = copy.getProduct();
-        builder.orderItemId = copy.getId();
-        return builder;
+    public static Builder builder() { //dont use lombok in order to get rid of dependencies from domain core!!!
+       return new Builder();
     }
 
     boolean isPriceValid() {
@@ -36,6 +32,9 @@ public class OrderItem extends BaseEntity<OrderItemId> {
 
     public OrderId getOrderId() {
         return orderId;
+    }
+    public UUID getProductId(){
+        return product.getId().getValue();
     }
 
     public Product getProduct() {
@@ -69,7 +68,7 @@ public class OrderItem extends BaseEntity<OrderItemId> {
         private Builder() {
         }
 
-        public static Builder newBuilder() {
+        public static Builder builder() {
             return new Builder();
         }
 

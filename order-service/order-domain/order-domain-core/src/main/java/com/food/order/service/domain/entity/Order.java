@@ -37,18 +37,8 @@ public class Order extends AggregateRoot<OrderId> {
         failureMessages = builder.failureMessages;
     }
 
-    public static Builder builder(Order copy) {
-        Builder builder = new Builder();
-        builder.orderId = copy.getId();
-        builder.customerId = copy.getCustomerId();
-        builder.restaurantId = copy.getRestaurantId();
-        builder.streetAddress = copy.getStreetAddress();
-        builder.price = copy.getPrice();
-        builder.items = copy.getItems();
-        builder.trackingId = copy.getTrackingId();
-        builder.orderStatus = copy.getOrderStatus();
-        builder.failureMessages = copy.getFailureMessages();
-        return builder;
+    public static Builder builder() {
+      return new Builder();
     }
 
     public void initializeOrder() {
@@ -186,7 +176,7 @@ public class Order extends AggregateRoot<OrderId> {
         private Builder() {
         }
 
-        public static Builder newBuilder() {
+        public static Builder builder() {
             return new Builder();
         }
 
