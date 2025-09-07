@@ -3,25 +3,20 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.food.order</groupId>
-        <artifactId>order-service</artifactId>
+        <artifactId>kafka</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>order-container</artifactId>
-    <packaging>jar</packaging>
-
-    <name>order-container</name>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <artifactId>kafka-producer</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
+            <groupId>com.food.order</groupId>
+            <artifactId>kafka-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.food.order</groupId>
+            <artifactId>kafka-config-data</artifactId>
         </dependency>
         <dependency>
             <groupId>com.food.order</groupId>
@@ -29,19 +24,15 @@
         </dependency>
         <dependency>
             <groupId>com.food.order</groupId>
-            <artifactId>order-application-service</artifactId>
+            <artifactId>common-domain</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.food.order</groupId>
-            <artifactId>order-application</artifactId>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.food.order</groupId>
-            <artifactId>order-dataacess</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.food.order</groupId>
-            <artifactId>order-messaging</artifactId>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-avro-serializer</artifactId>
         </dependency>
     </dependencies>
 </project>
