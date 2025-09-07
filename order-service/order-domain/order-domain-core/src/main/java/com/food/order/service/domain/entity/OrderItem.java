@@ -9,6 +9,7 @@ import java.util.UUID;
 
 public class OrderItem extends BaseEntity<OrderItemId> {
     private OrderId orderId;
+    private final UUID productId;
     private final Product product;
     private final int quantity;
     private final Money price;
@@ -19,6 +20,7 @@ public class OrderItem extends BaseEntity<OrderItemId> {
         price = builder.price;
         subTotal = builder.subTotal;
         product = builder.product;
+        productId = builder.productId;
         super.setId(builder.orderItemId);
     }
 
@@ -34,7 +36,7 @@ public class OrderItem extends BaseEntity<OrderItemId> {
         return orderId;
     }
     public UUID getProductId(){
-        return product.getId().getValue();
+        return productId;
     }
 
     public Product getProduct() {
@@ -64,6 +66,7 @@ public class OrderItem extends BaseEntity<OrderItemId> {
         private Money subTotal;
         private Product product;
         private OrderItemId orderItemId;
+        private UUID productId;
 
         private Builder() {
         }
@@ -89,6 +92,10 @@ public class OrderItem extends BaseEntity<OrderItemId> {
 
         public Builder product(Product val) {
             product = val;
+            return this;
+        }
+        public Builder productId(UUID val) {
+            productId = val;
             return this;
         }
 
