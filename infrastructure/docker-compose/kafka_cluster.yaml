@@ -24,14 +24,22 @@ services:
       - "19092:19092"
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-broker-1:9092,LISTENER_LOCAL://localhost:19092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,LISTENER_LOCAL:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
-      KAFKA_COMPRESSION_TYPE: producer
+#      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-broker-1:9092,LISTENER_LOCAL://localhost:19092,CONTROLLER://kafka-broker-1:9093
+      KAFKA_ADVISED_LISTENERS: BROKER://kafka-broker-1:9092,EXTERNAL://localhost:19092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,BROKER:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: BROKER
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_PROCESS_ROLES: 'controller,broker'
+      KAFKA_CONTROLLER_QUORUM_VOTERS: '1@kafka-broker-1:9093,2@kafka-broker-2:9093,3@kafka-broker-3:9093'
+      KAFKA_LOG_DIRS: '/tmp/kraft-logs'
+      KAFKA_LOG_SEGMENT_BYTES: 16384
     volumes:
-      - "./volumes/kafka/broker-1:/var/lib/kafka/data"
+      - ./check_cluster.sh:/tmp/check_cluster.sh
+      - ./cluster-id-dir:/tmp/cluster-id-dir
+      - ./volumes/kafka/broker-1:/tmp/kraft-logs
+    command:
+      - "bash -c '/tmp/check_cluster_id.sh && export CLUSTER_ID=$$(cat '/tmp/cluster-id-dir/clusterId') && /etc/confluent/docker/run"
     networks:
       - ${GLOBAL_NETWORK:-kafka}
   kafka-broker-2:
