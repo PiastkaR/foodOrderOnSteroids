@@ -20,7 +20,7 @@ import com.food.order.service.domain.maper.OrderDataMapper;
 import com.food.order.service.domain.ports.output.repository.CustomerRepository;
 import com.food.order.service.domain.ports.output.repository.OrderRepository;
 import com.food.order.service.domain.ports.output.repository.RestaurantRepository;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +67,7 @@ public class OrderApplicationServiceTest {
     @Autowired
     private OrderDomainService orderDomainService;
 
-    @BeforeAll
+    @BeforeEach
     public void init() {
         createOrderCommand = CreateOrderCommand.builder()
                 .customerId(CUSTOMER_ID)
@@ -169,7 +169,7 @@ public class OrderApplicationServiceTest {
         CreateOrderResponse createOrderResponse = orderApplicationService.createOrder(createOrderCommand);
 
         assertEquals(OrderStatus.PENDING, createOrderResponse.getOrderStatus());
-        assertEquals("Order created successfully", createOrderResponse.getMessage());
+        assertEquals("Order Created Successfully", createOrderResponse.getMessage());
         assertNotNull(createOrderResponse.getOrderTrackingId());
     }
 

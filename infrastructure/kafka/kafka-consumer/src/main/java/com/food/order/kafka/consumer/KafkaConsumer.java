@@ -1,5 +1,7 @@
 package com.food.order.kafka.consumer;
 
+import org.apache.avro.specific.SpecificRecordBase;
+
 import java.util.List;
 
 public interface KafkaConsumer<T extends SpecificRecordBase> {
