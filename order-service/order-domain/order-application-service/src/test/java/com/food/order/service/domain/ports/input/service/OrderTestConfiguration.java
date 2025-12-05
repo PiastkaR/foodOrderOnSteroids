@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication(scanBasePackages = {"com.food.order"})
 public class OrderTestConfiguration {
-
     @Bean
     public OrderCreatedPaymentRequestMessagePublisher orderCreatedPaymentRequestMessagePublisher() {
         return Mockito.mock(OrderCreatedPaymentRequestMessagePublisher.class);

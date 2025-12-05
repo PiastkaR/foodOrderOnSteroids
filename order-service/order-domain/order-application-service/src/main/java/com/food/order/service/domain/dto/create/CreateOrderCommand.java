@@ -1,6 +1,5 @@
 package com.food.order.service.domain.dto.create;
 
-import com.food.order.service.domain.entity.OrderItem;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,9 +9,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
+@Getter
 @Builder
 @AllArgsConstructor
-@Getter
 public class CreateOrderCommand {
     @NotNull
     private final UUID customerId;
@@ -24,5 +23,4 @@ public class CreateOrderCommand {
     private final List<OrderItem> items;
     @NotNull
     private final OrderAddress address;
-
 }

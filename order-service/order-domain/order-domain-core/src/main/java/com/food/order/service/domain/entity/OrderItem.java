@@ -5,38 +5,39 @@ import com.food.order.domain.valueobject.Money;
 import com.food.order.domain.valueobject.OrderId;
 import com.food.order.service.domain.valueobject.OrderItemId;
 
-import java.util.UUID;
-
 public class OrderItem extends BaseEntity<OrderItemId> {
     private OrderId orderId;
-    private final UUID productId;
     private final Product product;
     private final int quantity;
     private final Money price;
     private final Money subTotal;
 
-    private OrderItem(Builder builder) {
-        quantity = builder.quantity;
-        price = builder.price;
-        subTotal = builder.subTotal;
-        product = builder.product;
-        productId = builder.productId;
-        super.setId(builder.orderItemId);
-    }
-
-    public static Builder builder() { //dont use lombok in order to get rid of dependencies from domain core!!!
-       return new Builder();
+    void initializeOrderItem(OrderId orderId, OrderItemId orderItemId) {
+        this.orderId = orderId;
+        super.setId(orderItemId);
     }
 
     boolean isPriceValid() {
-        return price.isGreaterThanZero() && price.equals(product.getPrice()) && price.multiply(quantity).equals(subTotal);
+        return price.isGreaterThanZero() &&
+                price.equals(product.getPrice()) &&
+                price.multiply(quantity).equals(subTotal);
     }
+
+    private OrderItem(Builder builder) {
+        super.setId(builder.orderItemId);
+        product = builder.product;
+        quantity = builder.quantity;
+        price = builder.price;
+        subTotal = builder.subTotal;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
 
     public OrderId getOrderId() {
         return orderId;
-    }
-    public UUID getProductId(){
-        return productId;
     }
 
     public Product getProduct() {
@@ -55,24 +56,24 @@ public class OrderItem extends BaseEntity<OrderItemId> {
         return subTotal;
     }
 
-    void initializeOrderItem(OrderId orderId, OrderItemId orderItemId) {
-        this.orderId = orderId;
-        super.setId(orderItemId);
-    }
-
     public static final class Builder {
+        private OrderItemId orderItemId;
+        private Product product;
         private int quantity;
         private Money price;
         private Money subTotal;
-        private Product product;
-        private OrderItemId orderItemId;
-        private UUID productId;
 
         private Builder() {
         }
 
-        public static Builder builder() {
-            return new Builder();
+        public Builder orderItemId(OrderItemId val) {
+            orderItemId = val;
+            return this;
+        }
+
+        public Builder product(Product val) {
+            product = val;
+            return this;
         }
 
         public Builder quantity(int val) {
@@ -87,20 +88,6 @@ public class OrderItem extends BaseEntity<OrderItemId> {
 
         public Builder subTotal(Money val) {
             subTotal = val;
-            return this;
-        }
-
-        public Builder product(Product val) {
-            product = val;
-            return this;
-        }
-        public Builder productId(UUID val) {
-            productId = val;
-            return this;
-        }
-
-        public Builder id(OrderItemId val) {
-            orderItemId = val;
             return this;
         }
 

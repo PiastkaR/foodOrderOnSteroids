@@ -1,4 +1,4 @@
-package com.food.order;
+package com.food.order.application;
 
 /**
  * Hello world!

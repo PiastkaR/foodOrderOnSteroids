@@ -13,20 +13,30 @@ import com.food.order.service.domain.entity.OrderItem;
 import com.food.order.service.domain.entity.Product;
 import com.food.order.service.domain.entity.Restaurant;
 import com.food.order.service.domain.valueobject.StreetAddress;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class OrderDataMapper {
     public Restaurant createOrderCommandToRestaurant(CreateOrderCommand createOrderCommand) {
         return Restaurant.builder()
                 .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
-                .products(createOrderCommand.getItems().stream()
-                        .map(item -> new Product(new ProductId(item.getProductId())))
+                .products(createOrderCommand.getItems().stream().map(orderItem ->
+                                new Product(new ProductId(orderItem.getProductId())))
                         .toList())
+                .build();
+    }
+
+    public Order createOrderCommandToOrder(CreateOrderCommand createOrderCommand) {
+        return Order.builder()
+                .customerId(new CustomerId(createOrderCommand.getCustomerId()))
+                .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
+                .deliveryAddress(orderAddressToStreetAddress(createOrderCommand.getAddress()))
+                .price(new Money(createOrderCommand.getPrice()))
+                .items(orderItemsToOrderItemEntities(createOrderCommand.getItems()))
                 .build();
     }
 
@@ -38,16 +48,6 @@ public class OrderDataMapper {
                 .build();
     }
 
-    public Order createOrderCommandToOrder(CreateOrderCommand createOrderCommand) {
-        return Order.builder()
-                .customerId(new CustomerId(createOrderCommand.getCustomerId()))
-                .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
-                .streetAddress(orderAddressToStreetAddress(createOrderCommand.getAddress()))
-                .price(new Money(createOrderCommand.getPrice()))
-                .items(orderItemsToOrderItemEntities(createOrderCommand.getItems()))
-                .build();
-    }
-
     public TrackOrderResponse orderToTrackOrderResponse(Order order) {
         return TrackOrderResponse.builder()
                 .orderTrackingId(order.getTrackingId().getValue())
@@ -56,18 +56,24 @@ public class OrderDataMapper {
                 .build();
     }
 
-    private List<OrderItem> orderItemsToOrderItemEntities(@NotNull List<OrderItem> items) {
-        return items.stream().map(orderItem ->
-                OrderItem.builder()
-                        .product(new Product(new ProductId(orderItem.getProductId())))
-                        .price(orderItem.getPrice())
-                        .quantity(orderItem.getQuantity())
-                        .subTotal(orderItem.getSubTotal())
-                        .build()
-        ).toList();
+    private List<OrderItem> orderItemsToOrderItemEntities(
+            List<com.food.order.service.domain.dto.create.OrderItem> orderItems) {
+        return orderItems.stream()
+                .map(orderItem ->
+                        OrderItem.builder()
+                                .product(new Product(new ProductId(orderItem.getProductId())))
+                                .price(new Money(orderItem.getPrice()))
+                                .quantity(orderItem.getQuantity())
+                                .subTotal(new Money(orderItem.getSubTotal()))
+                                .build()).collect(Collectors.toList());
     }
 
     private StreetAddress orderAddressToStreetAddress(OrderAddress orderAddress) {
-        return new StreetAddress(UUID.randomUUID(), orderAddress.getStreet(), orderAddress.getPostalCode(), orderAddress.getCity());
+        return new StreetAddress(
+                UUID.randomUUID(),
+                orderAddress.getStreet(),
+                orderAddress.getPostalCode(),
+                orderAddress.getCity()
+        );
     }
 }
