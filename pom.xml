@@ -6,6 +6,7 @@
         <module>order-service</module>
         <module>common</module>
         <module>infrastructure</module>
+        <module>customer-service</module>
     </modules>
 
     <parent>
@@ -69,6 +70,16 @@
             <dependency>
                 <groupId>com.food.order</groupId>
                 <artifactId>common-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.order</groupId>
+                <artifactId>kafka-producer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.order</groupId>
+                <artifactId>kafka-consumer</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

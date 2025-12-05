@@ -1,7 +1,7 @@
-package com.food.producer.service.impl;
+package com.food.order.kafka.producer.service.impl;
 
-import com.food.producer.exception.KafkaProducerException;
-import com.food.producer.service.KafkaProducer;
+import com.food.order.kafka.producer.exception.KafkaProducerException;
+import com.food.order.kafka.producer.service.KafkaProducer;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.avro.specific.SpecificRecordBase;
