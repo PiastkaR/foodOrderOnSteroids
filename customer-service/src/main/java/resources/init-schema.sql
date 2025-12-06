@@ -28,7 +28,7 @@ FROM customer.customers
 refresh materialized VIEW customer.order_customer_m_view;
 
 DROP function IF EXISTS customer.refresh_order_customer_m_view;
-
+--refresh data on disk from materialized view every time data for customer is added/ deleted or changed!!
 CREATE OR replace function customer.refresh_order_customer_m_view()
 returns trigger
 AS '
