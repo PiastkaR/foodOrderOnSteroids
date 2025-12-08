@@ -8,6 +8,7 @@
         <module>infrastructure</module>
         <module>customer-service</module>
         <module>payment-service</module>
+        <module>restaurant-service</module>
     </modules>
 
     <parent>
@@ -46,11 +47,6 @@
             <dependency>
                 <groupId>com.food.order</groupId>
                 <artifactId>order-application-service</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.food.order</groupId>
-                <artifactId>payment-application-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -151,6 +147,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
