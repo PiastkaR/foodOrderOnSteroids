@@ -8,21 +8,10 @@
     </parent>
 
     <artifactId>restaurant-domain</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
+    <modules>
+        <module>restaurant-domain-core</module>
+        <module>restaurant-application-service</module>
+    </modules>
 
-    <name>restaurant-domain</name>
-    <url>http://maven.apache.org</url>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 </project>
