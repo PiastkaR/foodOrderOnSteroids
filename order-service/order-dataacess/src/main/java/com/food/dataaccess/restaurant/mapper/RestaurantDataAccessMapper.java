@@ -1,7 +1,8 @@
 package com.food.dataaccess.restaurant.mapper;
 
-import com.food.dataaccess.restaurant.entity.RestaurantEntity;
-import com.food.dataaccess.restaurant.exception.RestaurantDataAccessException;
+
+import com.food.order.dataaccess.restaurant.entity.RestaurantEntity;
+import com.food.order.dataaccess.restaurant.exception.RestaurantDataAccessException;
 import com.food.order.domain.valueobject.Money;
 import com.food.order.domain.valueobject.ProductId;
 import com.food.order.domain.valueobject.RestaurantId;
